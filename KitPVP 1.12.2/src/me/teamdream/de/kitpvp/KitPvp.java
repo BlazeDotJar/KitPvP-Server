@@ -29,6 +29,7 @@ public class KitPvp extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		
 		preInit();
 		init();
 		postInit();
