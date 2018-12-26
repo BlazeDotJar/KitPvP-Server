@@ -1,0 +1,5 @@
+name: ServerOS
+version: 1.0
+author: TeamDream
+main: me.teamdream.de.kitpvp.KitPvp
+commands:
