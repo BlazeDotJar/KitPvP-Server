@@ -59,6 +59,9 @@ public class KitPvp extends JavaPlugin {
 			
 			try {cfg.save(file);} catch (IOException e) {e.printStackTrace();}
 		}else{
+			this.home_path = cfg.getString("Server.Config.Main.Home-Path");
+			this.config_path = cfg.getString("Server.Config.Main.Config-Path");
+			this.stats_path = cfg.getString("Server.Config.Main.Stats-Path");
 		}
 	}
 	/* Fertigstellung */
@@ -88,5 +91,22 @@ public class KitPvp extends JavaPlugin {
 		int mon = d.getMonth();
 		int year = d.getYear();
 		return day+":"+mon+":"+year;
+	}
+	
+	/* Getters und Setters */
+	public KitManager getKitManager() {
+		return kitManager;
+	}
+	public void setKitManager(KitManager kitManager) {
+		this.kitManager = kitManager;
+	}
+	public String getHome_path() {
+		return home_path;
+	}
+	public String getConfig_path() {
+		return config_path;
+	}
+	public String getStats_path() {
+		return stats_path;
 	}
 }
