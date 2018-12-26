@@ -16,13 +16,13 @@ import me.teamdream.de.kitpvp.kit.KitManager;
 @SuppressWarnings("deprecation")
 public class KitPvp extends JavaPlugin {
 	
-	
 	/* Main System Variablen */
 	private static KitPvp instance = null;
 	public static KitPvp getInstance() {return instance;}
-	public String home_path = "plugins/TeamDream/";
-	public String config_path = home_path+"/config.yml";
-	public String stats_path = home_path+"/stats/stats.yml";
+	public static String home_path = "plugins/TeamDream/";
+	public static String config_path = home_path+"config.yml";
+	public static String stats_path = home_path+"stats/stats.yml";
+	public static String kits_path = home_path+"kits/kits.yml";
 	
 	/* Klassen-Instanzen */
 	private KitManager kitManager;
@@ -42,6 +42,7 @@ public class KitPvp extends JavaPlugin {
 	/* Vorbereitung */
 	public void preInit() {
 		KitPvp.instance = this;
+		this.kitManager = new KitManager(getInstance());
 	}
 	
 	/* Bearbeitung */
@@ -53,21 +54,23 @@ public class KitPvp extends JavaPlugin {
 		File file = new File(config_path);
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 		if(!file.exists()) {
+			cfg.set("Server.Config.Created On", getDateInString()+" / "+getTimeInString());
 			cfg.set("Server.Config.Main.Home-Path", home_path);
 			cfg.set("Server.Config.Main.Config-Path", config_path);
 			cfg.set("Server.Config.Main.Stats-Path", stats_path);
+			cfg.set("Server.Config.Main.Kits-Path", kits_path);
 			
 			try {cfg.save(file);} catch (IOException e) {e.printStackTrace();}
 		}else{
-			this.home_path = cfg.getString("Server.Config.Main.Home-Path");
-			this.config_path = cfg.getString("Server.Config.Main.Config-Path");
-			this.stats_path = cfg.getString("Server.Config.Main.Stats-Path");
+			home_path = cfg.getString("Server.Config.Main.Home-Path");
+			config_path = cfg.getString("Server.Config.Main.Config-Path");
+			stats_path = cfg.getString("Server.Config.Main.Stats-Path");
+			kits_path = cfg.getString("Server.Config.Main.Kits-Path");
 		}
 	}
 	/* Fertigstellung */
 	public void postInit() {
 		new Listeners(getInstance());
-		this.kitManager = new KitManager(getInstance());
 	}
 	
 	/* Verschiedenes */
@@ -100,13 +103,16 @@ public class KitPvp extends JavaPlugin {
 	public void setKitManager(KitManager kitManager) {
 		this.kitManager = kitManager;
 	}
-	public String getHome_path() {
+	public static String getHome_path() {
 		return home_path;
 	}
-	public String getConfig_path() {
+	public static String getConfig_path() {
 		return config_path;
 	}
-	public String getStats_path() {
+	public static String getStats_path() {
 		return stats_path;
+	}
+	public static String getKits_path() {
+		return kits_path;
 	}
 }
