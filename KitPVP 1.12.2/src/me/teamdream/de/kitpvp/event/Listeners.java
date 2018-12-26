@@ -1,4 +1,4 @@
-package me.teamdream.de.kitpvp.events;
+package me.teamdream.de.kitpvp.event;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
