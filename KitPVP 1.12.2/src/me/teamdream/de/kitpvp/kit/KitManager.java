@@ -33,12 +33,13 @@ public class KitManager {
 			try {cfg.save(file);} catch (IOException e) {e.printStackTrace();}
 			createDefaultKit();
 		}
+		
 	}
 	
-	public void saveKit(Kit kit) {
+	public boolean saveKit(Kit kit) {
 		File file = new File(KitPvp.getKits_path());
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-		cfg.set("Kits.Name", kit.getKitName());
+		if(!cfg.getString("Kits.Name."+kit.getKitName()+".Creator").equals("")) return false;
 		cfg.set("Kits.Name."+kit.getKitName()+".Creator", kit.getCreatorName());
 		cfg.set("Kits.Name."+kit.getKitName()+".Price", String.valueOf(kit.getPrice()));
 		cfg.set("Kits.Name."+kit.getKitName()+".Premium Only", String.valueOf(kit.isPremiumOnly()));
@@ -67,10 +68,43 @@ public class KitManager {
 		 * 
 		 * POTION EFFECTS WERDEN NOCH NICHT GESPEICHERT
 		 * 
-		 * */
+		 */
 		try {cfg.save(file);
-		for(Player p : Bukkit.getOnlinePlayers())p.sendMessage("Kit: "+kit.getKitName()+" wurde erstellt");
-		} catch (IOException e) {e.printStackTrace();}
+		for(Player p : Bukkit.getOnlinePlayers())p.sendMessage("Kit: "+kit.getKitName()+" wurde erstellt");return true;
+		} catch (IOException e) {e.printStackTrace();  return false;}
+	}
+	public boolean loadKit(Player p, String kitName) {
+		File file = new File(KitPvp.getKits_path());
+		FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+		if(!cfg.getString("Kits.Name."+kitName+".Creator").equals("")) {
+			Inventory pInv = p.getInventory();
+			pInv.clear();
+			for(int i = 0; i != 36; i++) {
+				ItemStack stack = cfg.getItemStack("Kits.Name."+kitName+".Items."+i);
+				if(stack != null) pInv.setItem(i, stack);
+				else pInv.setItem(i, new ItemStack(Material.AIR));
+			}
+			
+			ItemStack stack = cfg.getItemStack("Kits.Name."+kitName+".Helmet");
+			if(stack != null) p.getInventory().setHelmet(stack);
+			else p.getInventory().setHelmet(new ItemStack(Material.AIR));
+			
+			stack = cfg.getItemStack("Kits.Name."+kitName+".Chestplate");
+			if(stack != null) p.getInventory().setChestplate(stack);
+			else p.getInventory().setChestplate(new ItemStack(Material.AIR));
+			
+			stack = cfg.getItemStack("Kits.Name."+kitName+".Leggings");
+			if(stack != null) p.getInventory().setLeggings(stack);
+			else p.getInventory().setLeggings(new ItemStack(Material.AIR));
+			
+			stack = cfg.getItemStack("Kits.Name."+kitName+".Boots");
+			if(stack != null) p.getInventory().setBoots(stack);
+			else p.getInventory().setBoots(new ItemStack(Material.AIR));
+		}else{
+			for(Player t : Bukkit.getOnlinePlayers()) t.sendMessage("Not found");
+			return false;
+		}
+		return true;
 	}
 	
 	private void createDefaultKit() {

@@ -6,8 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.teamdream.de.kitpvp.event.Listeners;
@@ -29,7 +31,6 @@ public class KitPvp extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		
 		preInit();
 		init();
 		postInit();
@@ -63,15 +64,16 @@ public class KitPvp extends JavaPlugin {
 			
 			try {cfg.save(file);} catch (IOException e) {e.printStackTrace();}
 		}else{
-			home_path = cfg.getString("Server.Config.Main.Home-Path");
-			config_path = cfg.getString("Server.Config.Main.Config-Path");
-			stats_path = cfg.getString("Server.Config.Main.Stats-Path");
-			kits_path = cfg.getString("Server.Config.Main.Kits-Path");
+//			home_path = cfg.getString("Server.Config.Main.Home-Path");
+//			config_path = cfg.getString("Server.Config.Main.Config-Path");
+//			stats_path = cfg.getString("Server.Config.Main.Stats-Path");
+//			kits_path = cfg.getString("Server.Config.Main.Kits-Path");
 		}
 	}
 	/* Fertigstellung */
 	public void postInit() {
 		new Listeners(getInstance());
+		for(Player p : Bukkit.getOnlinePlayers()) getKitManager().loadKit(p, getKitManager().default_kit_name);
 	}
 	
 	/* Verschiedenes */
