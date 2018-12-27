@@ -73,14 +73,14 @@ public class KitPvp extends JavaPlugin {
 	/* Fertigstellung */
 	public void postInit() {
 		new Listeners(getInstance());
-		for(Player p : Bukkit.getOnlinePlayers()) getKitManager().loadKit(p, getKitManager().default_kit_name);
+		for(Player p : Bukkit.getOnlinePlayers()) getKitManager().loadKit(p, "Premium-Kit");
 	}
 	
 	/* Verschiedenes */
 	public static String getTimeInString() {
 		/*
 		 * Gibt die Aktuelle Zeit wieder
-		 * */
+		 */
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		Calendar date = sdf.getCalendar();
 		Date d = date.getTime();
@@ -89,7 +89,7 @@ public class KitPvp extends JavaPlugin {
 	public static String getDateInString() {
 		/*
 		 * Gibt das aktuelle Datum wieder
-		 * */
+		 */
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		Calendar date = sdf.getCalendar();
 		Date d = date.getTime();
