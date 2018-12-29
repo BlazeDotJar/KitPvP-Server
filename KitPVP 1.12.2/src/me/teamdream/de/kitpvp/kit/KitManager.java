@@ -45,6 +45,7 @@ public class KitManager {
 		cfg.set("Kits.Name."+kit.getKitName()+".Price", String.valueOf(kit.getPrice()));
 		cfg.set("Kits.Name."+kit.getKitName()+".Premium Only", String.valueOf(kit.isPremiumOnly()));
 		cfg.set("Kits.Name."+kit.getKitName()+".Event Only", String.valueOf(kit.isEventOnly()));
+		cfg.set("Kits.Name."+kit.getKitName()+".Display Material", kit.getDisplayMaterial().toString());
 		for(int slot = 0; slot != kit.getInv().getSize(); slot++) {
 			ItemStack i = kit.getInv().getItem(slot);
 			if(i != null) {
@@ -115,6 +116,25 @@ public class KitManager {
 		return true;
 	}
 	
+	public Kit getKit(String kitName) {
+		File file = new File(KitPvp.getKits_path());
+		FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+		Kit kit = new Kit(null, kitName);
+		if(cfg.getString("Kits.Name."+kitName+".Creator") != null) {
+			for(int i = 0; i != 36; i++) {
+				kit.getInv().setItem(i, cfg.getItemStack("Kits.Name."+kitName+".Items."+i));
+			}
+			kit.getArmor().put("Helmet", cfg.getItemStack("Kits.Name."+kitName+".Helmet"));
+			kit.getArmor().put("Chestplate", cfg.getItemStack("Kits.Name."+kitName+".Chestplate"));
+			kit.getArmor().put("Leggings", cfg.getItemStack("Kits.Name."+kitName+".Leggings"));
+			kit.getArmor().put("Boots", cfg.getItemStack("Kits.Name."+kitName+".Boots"));
+			return kit;
+		}else{
+			for(Player t : Bukkit.getOnlinePlayers()) t.sendMessage("Not found");
+			return null;
+		}
+	}
+	
 	private void createDefaultKit() {
 		/* Standart-Kit wird erstellt */
 		Inventory kitInv = Bukkit.createInventory(null, 36);
@@ -177,7 +197,7 @@ public class KitManager {
 		PotionEffect regeneration = new PotionEffect(PotionEffectType.REGENERATION, 10*20, 10*20);
 		potionEffects.put("Regeneration", regeneration);
 		
-		saveKit(new Kit(null, default_kit_name, kitInv, armor, potionEffects, 50, false, false));
+		saveKit(new Kit(null, default_kit_name, kitInv, armor, potionEffects, Material.STONE_SWORD, 50D, false, false));
 	}
 	
 }

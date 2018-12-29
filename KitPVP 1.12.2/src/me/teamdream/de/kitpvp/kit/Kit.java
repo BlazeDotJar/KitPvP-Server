@@ -2,10 +2,12 @@ package me.teamdream.de.kitpvp.kit;
 
 import java.util.HashMap;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+
 
 public class Kit {
 	
@@ -16,11 +18,11 @@ public class Kit {
 	private Inventory inv=null;
 	private HashMap<String, ItemStack> armor=new HashMap<String, ItemStack>();
 	private HashMap<String, PotionEffect> potionEffects=new HashMap<String, PotionEffect>();
+	private Material displayMaterial = Material.STONE;
 	private double price = 0;
 	private boolean premiumOnly = false;
 	private boolean eventOnly = false;
-	public Kit(Player creator, String kitName, Inventory inv, HashMap<String, ItemStack> armor, HashMap<String, PotionEffect> potionEffects, double price, boolean premiumOnly, boolean eventOnly) {
-		super();
+	public Kit(Player creator, String kitName, Inventory inv, HashMap<String, ItemStack> armor, HashMap<String, PotionEffect> potionEffects, Material displayMaterial, double price, boolean premiumOnly, boolean eventOnly) {
 		this.creator = creator;
 		if(creator == null) this.creatorName="Console";
 		else this.creatorName = creator.getName();
@@ -28,6 +30,7 @@ public class Kit {
 		this.inv = inv;
 		this.armor = armor;
 		this.potionEffects = potionEffects;
+		this.displayMaterial = displayMaterial;
 		this.price = price;
 		this.premiumOnly = premiumOnly;
 		this.eventOnly = eventOnly;
@@ -84,6 +87,9 @@ public class Kit {
 	}
 	public HashMap<String, PotionEffect> getPotionEffects() {
 		return potionEffects;
+	}
+	public Material getDisplayMaterial() {
+		return displayMaterial;
 	}
 	
 	
