@@ -25,6 +25,8 @@ public class KitPvp extends JavaPlugin {
 	public static String config_path = home_path+"config.yml";
 	public static String stats_path = home_path+"stats/stats.yml";
 	public static String kits_path = home_path+"kits/kits.yml";
+	public static String kitslist_path = home_path+"kits/kits-list.yml";
+	public static String noPermission = "§cDu hast kein Recht dazu";
 	
 	/* Klassen-Instanzen */
 	private KitManager kitManager;
@@ -49,8 +51,7 @@ public class KitPvp extends JavaPlugin {
 	
 	/* Bearbeitung */
 	public void init() {
-		/*
-		 * Prüft die Verfügbarkeit der Config:
+		/* Prüft die Verfügbarkeit der Config:
 		 * Wenn nicht vorhanden: Config wird erstellt
 		 * Wenn vorhanden: Wird geladen und Daten werden Ausgelesen */
 		File file = new File(config_path);
@@ -61,13 +62,17 @@ public class KitPvp extends JavaPlugin {
 			cfg.set("Server.Config.Main.Config-Path", config_path);
 			cfg.set("Server.Config.Main.Stats-Path", stats_path);
 			cfg.set("Server.Config.Main.Kits-Path", kits_path);
+			cfg.set("Server.Config.Main.Kits-List-Path", kitslist_path);
+			cfg.set("Server.Config.Main.No Permission", noPermission);
 			
 			try {cfg.save(file);} catch (IOException e) {e.printStackTrace();}
 		}else{
-//			home_path = cfg.getString("Server.Config.Main.Home-Path");
-//			config_path = cfg.getString("Server.Config.Main.Config-Path");
-//			stats_path = cfg.getString("Server.Config.Main.Stats-Path");
-//			kits_path = cfg.getString("Server.Config.Main.Kits-Path");
+			home_path = cfg.getString("Server.Config.Main.Home-Path");
+			config_path = cfg.getString("Server.Config.Main.Config-Path");
+			stats_path = cfg.getString("Server.Config.Main.Stats-Path");
+			kits_path = cfg.getString("Server.Config.Main.Kits-Path");
+			kitslist_path = cfg.getString("Server.Config.Main.Kits-List-Path");
+			noPermission = cfg.getString("Server.Config.Main.No Permission");
 		}
 	}
 	/* Fertigstellung */
@@ -117,5 +122,8 @@ public class KitPvp extends JavaPlugin {
 	}
 	public static String getKits_path() {
 		return kits_path;
+	}
+	public static String getKitsList() {
+		return kitslist_path;
 	}
 }

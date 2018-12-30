@@ -37,9 +37,15 @@ public class KitManager {
 		
 	}
 	
+	@SuppressWarnings({ "unchecked", "unused" })
 	public boolean saveKit(Kit kit) {
 		File file = new File(KitPvp.getKits_path());
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+		
+		File kitsfile = new File(KitPvp.getKitsList());
+		FileConfiguration kitscfg = YamlConfiguration.loadConfiguration(kitsfile);
+		ArrayList<String> kits = new ArrayList<String>();
+		
 		if(cfg.getString("Kits.Name."+kit.getKitName()+".Creator") != null) return false;
 		cfg.set("Kits.Name."+kit.getKitName()+".Creator", kit.getCreatorName());
 		cfg.set("Kits.Name."+kit.getKitName()+".Price", String.valueOf(kit.getPrice()));
@@ -73,6 +79,21 @@ public class KitManager {
 		 * POTION EFFECTS WERDEN NOCH NICHT GESPEICHERT
 		 * 
 		 */
+		
+		kits = (ArrayList<String>) kitscfg.getList("Kits.List");
+		if(kits != null && kits.isEmpty()) {
+			for(String s : kits) {
+				if("Kits.Name."+s+".Creator" == null) kits.remove(s);
+			}
+		}
+		if(kits == null) kits = new ArrayList<String>();
+		kits.add(kit.getKitName());
+		kitscfg.set("Kits.List", kits);
+		try {
+			kitscfg.save(kitsfile);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		try {
 			cfg.save(file);
 			for(Player p : Bukkit.getOnlinePlayers())p.sendMessage("Kit: "+kit.getKitName()+" wurde erstellt");return true;
@@ -198,6 +219,11 @@ public class KitManager {
 		potionEffects.put("Regeneration", regeneration);
 		
 		saveKit(new Kit(null, default_kit_name, kitInv, armor, potionEffects, Material.STONE_SWORD, 50D, false, false));
+	}
+
+	public static void openKitsMenu(Player player) {
+		Inventory inv = Bukkit.createInventory(null, 54, "Kits");
+		
 	}
 	
 }
