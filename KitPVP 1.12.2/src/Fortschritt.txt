@@ -1,0 +1,5 @@
+
+31.12.2018 / 03:57:
+ - Player Profile added, nicht vollendet
+ - SpecialItems eingeführt, nicht vollendet
+ - Inventar Click Sperre eingeführt, nicht vollendet

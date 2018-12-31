@@ -12,8 +12,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.teamdream.de.kitpvp.command.KitPvpCommand;
 import me.teamdream.de.kitpvp.event.Listeners;
 import me.teamdream.de.kitpvp.kit.KitManager;
+import me.teamdream.de.kitpvp.profiling.Profiler;
 //@SuppressWarnings({ "deprecation", "unused" })
 @SuppressWarnings("deprecation")
 public class KitPvp extends JavaPlugin {
@@ -27,6 +29,10 @@ public class KitPvp extends JavaPlugin {
 	public static String kits_path = home_path+"kits/kits.yml";
 	public static String kitslist_path = home_path+"kits/kits-list.yml";
 	public static String noPermission = "§cDu hast kein Recht dazu";
+	public static final String sysPrefix = "§6>>>";
+	
+	/* Profiling */
+	private Profiler profiler;
 	
 	/* Klassen-Instanzen */
 	private KitManager kitManager;
@@ -40,6 +46,9 @@ public class KitPvp extends JavaPlugin {
 	}
 	@Override
 	public void onDisable() {
+		for(Player p : Bukkit.getOnlinePlayers()){
+			getProfiler().unregister(p);
+		}
 		super.onDisable();
 	}
 	
@@ -47,6 +56,8 @@ public class KitPvp extends JavaPlugin {
 	public void preInit() {
 		KitPvp.instance = this;
 		this.kitManager = new KitManager(getInstance());
+		new KitPvpCommand(this);
+		this.profiler = new Profiler(this);
 	}
 	
 	/* Bearbeitung */
@@ -78,7 +89,10 @@ public class KitPvp extends JavaPlugin {
 	/* Fertigstellung */
 	public void postInit() {
 		new Listeners(getInstance());
-		for(Player p : Bukkit.getOnlinePlayers()) getKitManager().loadKit(p, "Premium-Kit");
+		for(Player p : Bukkit.getOnlinePlayers()){
+			getProfiler().register(p);
+			getKitManager().loadKit(p, "Premium-Kit");
+		}
 	}
 	
 	/* Verschiedenes */
@@ -123,7 +137,15 @@ public class KitPvp extends JavaPlugin {
 	public static String getKits_path() {
 		return kits_path;
 	}
-	public static String getKitsList() {
+	public static String getKitsList_path() {
 		return kitslist_path;
+	}
+	public Profiler getProfiler() {
+		return profiler;
+	}
+	public static void sendMessage(Player player, String... strings) {
+		for(String s : strings) {
+			player.sendMessage(sysPrefix+" "+s);
+		}
 	}
 }

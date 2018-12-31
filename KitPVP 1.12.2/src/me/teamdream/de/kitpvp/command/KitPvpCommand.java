@@ -10,7 +10,13 @@ import me.teamdream.de.kitpvp.KitPvp;
 import me.teamdream.de.kitpvp.kit.KitManager;
 
 public class KitPvpCommand implements CommandExecutor {
-
+	private KitPvp kitpvp = null;
+	
+	public KitPvpCommand(KitPvp kitpvp) {
+		this.kitpvp = kitpvp;
+		kitpvp.getCommand("kit").setExecutor(this);
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
 		
@@ -23,7 +29,15 @@ public class KitPvpCommand implements CommandExecutor {
 			}else sender.sendMessage(KitPvp.noPermission);
 			break;
 		case 1:
-			
+			if(sender.hasPermission("kitpvp.command.kit.give")) {
+				if(sender instanceof Player) {
+					String kitname = args[0];
+					if(kitpvp.getKitManager().kitExist(kitname)){
+						if(kitpvp.getKitManager().loadKit(((Player)sender), kitname)) KitPvp.sendMessage(((Player)sender), "§fDu hast das Kit §a"+kitname+" §ferhalten");
+						else KitPvp.sendMessage(((Player)sender), "§cUps...", "§cEs ist ein Fehler aufgetreten beim Versuch dir ein Kit zu laden :C");
+					}else KitPvp.sendMessage(((Player)sender), "§cDieses Kit existiert nicht");
+				}else sender.sendMessage("§cDu bist kein Spieler");
+			}else sender.sendMessage(KitPvp.noPermission);
 			break;
 		}
 		

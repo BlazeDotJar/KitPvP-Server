@@ -1,0 +1,37 @@
+ KitPvP:
+  Regeln:
+   - Items werden nicht gedroppt
+   - Man muss sich vorm Sprung ein Kit wählen
+   - Spieler gegen Spieler
+   - Explosionen erlaubt(Plugin gesteuert)
+   - Feuer erlaubt(Plugin gesteuert)
+   - Pro Kill gibt es X viele Credits
+  Specials:
+   - Crates:
+     * spawnen zufällig auf der Map
+     * können mit einem Schwert oder Bogen 'abgebaut' werden
+     * Inhalt können neue Kits, einpaar Credits oder ein Temporärer Effekt sein
+   - Loot-Mobs:
+     * spawnen zufällig auf der Map
+     * beim Töten erhält man eine Heilung
+   - Wiederbelebungs-Item:
+     * Der Spieler hat ein Wiederbelebungs-Item auf dem 1ten Slot oben links im Inventar
+     * wird nach Bestätigung am selben Ort wiederbelebt
+     * Bestätigung dauert maximal 3 Sekunden
+   - Credits-Booster:
+     * Der Spieler hat einen Credit-Booster auf dem 2ten Slot oben links im Inventar
+     * Credit-Booster sind temporär
+     * Credit-Booster sind eventtechnisch oder im Shop zu erwerben
+   - Exp-Booster:
+     * Der Spieler hat einen Exp-Booster auf dem 3ten Slot oben links im Inventar
+     * Exp-Booster sind temporär
+     * Exp-Booster sind eventtechnisch oder im Shop zu erwerben
+     * Nach bestimmen abgeschlossenen Levelstufen gibt es Exp-Booster als Belohnung
+  Planung:
+   - Bauen:
+     * Man kann sich ein Versteck bauen
+     * Gebautes kann abgebaut oder durch Explosionen zerstört werden
+   - Walkspeed-Booster:
+     * Walkspeed-Booster sind Temporär
+     * erhöht die Laufgeschwindigkeit
+     * Walkspeed-Booster sind eventtechnisch oder im Shop zu erwerben
